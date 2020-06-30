@@ -16,7 +16,7 @@ import lombok.Data;
 
 /**
  * @date 2020/6/24
- * @time  上午11:53
+ * @time 上午11:53
  * @description 通用字段.
  * @author zuoyu
  */
