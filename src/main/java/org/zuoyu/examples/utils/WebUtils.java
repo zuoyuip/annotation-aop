@@ -13,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class WebUtils {
 
+
   public static String url() {
     ServletRequestAttributes servletRequestAttributes =
         (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();

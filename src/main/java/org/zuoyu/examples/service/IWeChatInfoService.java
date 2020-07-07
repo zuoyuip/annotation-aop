@@ -29,4 +29,9 @@ public interface IWeChatInfoService {
 
   /** 查询 */
   List<WeChatInfo> selectAll();
+
+  /**
+   * 根据ID查询用户
+   */
+  WeChatInfo selectWeChatInfoById(Integer weChatInfoId);
 }

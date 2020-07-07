@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.zuoyu.examples.aspectj.lang.annotation.Logger;
 import org.zuoyu.examples.model.WeChatInfo;
 import org.zuoyu.examples.repository.WeChatInfoRepository;
 import org.zuoyu.examples.service.IWeChatInfoService;
@@ -49,8 +50,8 @@ class WeChatInfoServiceImpl implements IWeChatInfoService {
     weChatInfoRepository.updateCityById(city, weChatInfo);
   }
 
-
   @Override
+  @Logger
   public List<WeChatInfo> selectAll() {
     Specification<WeChatInfo> infoSpecification =
         (Specification<WeChatInfo>)
@@ -59,5 +60,10 @@ class WeChatInfoServiceImpl implements IWeChatInfoService {
               return criteriaBuilder.equal(deleted, false);
             };
     return weChatInfoRepository.findAll(infoSpecification);
+  }
+
+  @Override
+  public WeChatInfo selectWeChatInfoById(Integer weChatInfoId) {
+    return weChatInfoRepository.getOne(weChatInfoId);
   }
 }
