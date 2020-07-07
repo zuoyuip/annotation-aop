@@ -44,7 +44,7 @@ public class SwaggerConfig {
   private final TypeResolver typeResolver;
 
   private boolean enabled = false;
-  private boolean urlTemplating = true;
+  private boolean urlTemplating = false;
   private boolean forCodeGen = true;
 
   public SwaggerConfig(TypeResolver typeResolver) {

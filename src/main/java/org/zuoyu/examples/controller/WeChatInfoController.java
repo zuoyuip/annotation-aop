@@ -29,6 +29,7 @@ public class WeChatInfoController {
 
   private final IWeChatInfoService iWeChatInfoService;
 
+
   public WeChatInfoController(IWeChatInfoService iWeChatInfoService) {
     this.iWeChatInfoService = iWeChatInfoService;
   }

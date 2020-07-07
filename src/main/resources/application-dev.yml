@@ -50,3 +50,14 @@ logging:
   level:
     org.zuoyu.examples: debug
     org.springframework: info
+
+swagger:
+  config:
+    enabled: true
+    urlTemplating: false
+    forCodeGen: false
+
+browser:
+  auto:
+    enable: true
+    url: ""

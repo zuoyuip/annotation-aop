@@ -1,0 +1,29 @@
+{
+	"properties": [
+		{
+			"name": "swagger.config.enabled",
+			"type": "java.lang.Boolean",
+			"description": "是否开启Swagger2."
+		},
+		{
+			"name": "swagger.config.urlTemplating",
+			"type": "java.lang.Boolean",
+			"description": "是否使用网址模板."
+		},
+		{
+			"name": "swagger.config.forCodeGen",
+			"type": "java.lang.Boolean",
+			"description": "是否启用代码生成接口."
+		},
+		{
+			"name": "browser.auto.enable",
+			"type": "java.lang.String",
+			"description": "Description for browser.auto.isEnable."
+		},
+		{
+			"name": "browser.auto.url",
+			"type": "java.lang.String",
+			"description": "启动项目后打开的网址，默认为swagger2."
+		}
+	]
+}

@@ -1,9 +1,11 @@
 package org.zuoyu.examples.config;
 
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import javax.annotation.PostConstruct;
 import lombok.SneakyThrows;
-import org.springframework.context.event.ApplicationContextEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author zuoyu
@@ -11,53 +13,91 @@ import org.springframework.context.event.EventListener;
  * @time 下午3:02
  * @description 项目初始化完成行为.
  */
+@ConfigurationProperties(prefix = "browser.auto")
 public class StartConfig {
 
-	private final static String OS_NAME = "os.name";
-	private final static String MAC_OS = "mac";
-	private final static String WINDOWS_OS = "windows";
-	private final static String LINUX_OS = "linux";
-	private final static String MAC_CLASS_NAME = "com.apple.eio.FileManager";
-	private final static String WINDOWS_EXEC = "rundll32 url.dll,FileProtocolHandler ";
-	private final static String[] BROWSERS = {"google-chrome", "firefox"};
+  private static final String OS_NAME = "os.name";
+  private static final String MAC_OS = "mac";
+  private static final String WINDOWS_OS = "windows";
+  private static final String LINUX_OS = "linux";
+  private static final String MAC_CLASS_NAME = "com.apple.eio.FileManager";
+  private static final String WINDOWS_EXEC = "rundll32 url.dll,FileProtocolHandler ";
+  private static final String[] BROWSERS = {"google-chrome", "firefox"};
+  private boolean isEnable = true;
+  private String url = "";
 
-	@EventListener(ApplicationContextEvent.class)
-	public void applicationContextEvent(){
-		final String swagger2Url = "http://127.0.0.1:8080/swagger-ui.html";
-		String osName = System.getProperty(OS_NAME).toLowerCase();
-		if (osName.contains(MAC_OS)){
-			macOpener(swagger2Url);
-		}
-		if (osName.contains(WINDOWS_OS)){
-			windowsOpener(swagger2Url);
-		}
-		if (osName.contains(LINUX_OS)){
-			linuxOpener(swagger2Url);
-		}
-	}
+  private final ServerProperties serverProperties;
 
-	@SneakyThrows
-	private void macOpener(String url){
-		Class fileManager = Class.forName(MAC_CLASS_NAME);
-		Method openURL = fileManager.getDeclaredMethod("openURL", String.class);
-		openURL.invoke(null, url);
-	}
+  public StartConfig(ServerProperties serverProperties) {
+    this.serverProperties = serverProperties;
+  }
 
-	@SneakyThrows
-	private void windowsOpener(String url){
-		Runtime runtime = Runtime.getRuntime();
-		runtime.exec(WINDOWS_EXEC + url);
-	}
+  @PostConstruct
+  public void applicationContextEvent() {
+    if (!this.isEnable) {
+      return;
+    }
+    if (this.url.trim().isEmpty()){
+      this.url = swaggerURL();
+    }
+    String osName = System.getProperty(OS_NAME).toLowerCase();
+    if (osName.contains(MAC_OS)) {
+      macOpener(this.url);
+    }
+    if (osName.contains(WINDOWS_OS)) {
+      windowsOpener(this.url);
+    }
+    if (osName.contains(LINUX_OS)) {
+      linuxOpener(this.url);
+    }
+  }
 
-	@SneakyThrows
-	private void linuxOpener(String url){
-		String browser = null;
-		for (String s : BROWSERS) {
-			if (Runtime.getRuntime().exec(new String[]{"which", s}).waitFor() == 0){
-				browser = s;
-				break;
-			}
-		}
-		Runtime.getRuntime().exec(new String[]{browser, url});
-	}
+  @SneakyThrows
+  private void macOpener(String url) {
+    Class fileManager = Class.forName(MAC_CLASS_NAME);
+    Method openURL = fileManager.getDeclaredMethod("openURL", String.class);
+    openURL.invoke(null, url);
+  }
+
+  @SneakyThrows
+  private void windowsOpener(String url) {
+    Runtime runtime = Runtime.getRuntime();
+    runtime.exec(WINDOWS_EXEC + url);
+  }
+
+  @SneakyThrows
+  private void linuxOpener(String url) {
+    String browser = null;
+    for (String s : BROWSERS) {
+      if (Runtime.getRuntime().exec(new String[] {"which", s}).waitFor() == 0) {
+        browser = s;
+        break;
+      }
+    }
+    Runtime.getRuntime().exec(new String[] {browser, url});
+  }
+
+  private String swaggerURL(){
+    final String base = "http://127.0.0.1:";
+    final String swagger = "/swagger-ui.html";
+    Integer port = serverProperties.getPort();
+    String contextPath = serverProperties.getServlet().getContextPath();
+    return base + port.toString() + contextPath + swagger;
+  }
+
+  public boolean isEnable() {
+    return isEnable;
+  }
+
+  public void setEnable(boolean enable) {
+    isEnable = enable;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
+  }
 }

@@ -2,11 +2,15 @@ package org.zuoyu.examples.config;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
 import java.util.TimeZone;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -63,4 +67,5 @@ public class WebConfig  extends WebMvcConfigurationSupport {
 		converters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
 		super.configureMessageConverters(converters);
 	}
+
 }
