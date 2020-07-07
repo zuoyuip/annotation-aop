@@ -1,7 +1,10 @@
 package org.zuoyu.examples.service.impl;
 
 import java.util.List;
+import javax.persistence.criteria.Path;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.zuoyu.examples.model.WeChatInfo;
 import org.zuoyu.examples.repository.WeChatInfoRepository;
@@ -28,6 +31,7 @@ class WeChatInfoServiceImpl implements IWeChatInfoService {
   }
 
   @Override
+  @Transactional(rollbackFor = Exception.class)
   public void deleteById(Integer weChatId) {
     weChatInfoRepository.makeDeleted(weChatId);
   }
@@ -39,7 +43,21 @@ class WeChatInfoServiceImpl implements IWeChatInfoService {
   }
 
   @Override
+  @Transactional(rollbackFor = Exception.class)
+  public void updateCityById(String city, Integer weChatInfo) {
+    Assert.notNull(city, "city can't is null");
+    weChatInfoRepository.updateCityById(city, weChatInfo);
+  }
+
+
+  @Override
   public List<WeChatInfo> selectAll() {
-    return weChatInfoRepository.findAll();
+    Specification<WeChatInfo> infoSpecification =
+        (Specification<WeChatInfo>)
+            (root, query, criteriaBuilder) -> {
+              Path<Object> deleted = root.get("deleted");
+              return criteriaBuilder.equal(deleted, false);
+            };
+    return weChatInfoRepository.findAll(infoSpecification);
   }
 }

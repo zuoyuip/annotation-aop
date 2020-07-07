@@ -20,6 +20,13 @@ public interface IWeChatInfoService {
   /** 修改 */
   WeChatInfo updateById(WeChatInfo weChatInfo);
 
+  /**
+   * 根据ID修改城市
+   * @param city - 城市
+   * @param weChatInfo - ID
+   */
+  void updateCityById(String city, Integer weChatInfo);
+
   /** 查询 */
   List<WeChatInfo> selectAll();
 }

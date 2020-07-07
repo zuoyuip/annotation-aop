@@ -24,7 +24,16 @@ public interface WeChatInfoRepository
    * @param weChatInfoId - ID
    */
   @Modifying
-  @Query(
-      "UPDATE WeChatInfo SET WeChatInfo.deleted = true WHERE WeChatInfo.weChatInfoId = :weChatInfoId")
+  @Query("UPDATE WeChatInfo w SET w.deleted = true WHERE w.weChatInfoId = :weChatInfoId")
   void makeDeleted(@Param("weChatInfoId") Integer weChatInfoId);
+
+  /**
+   * 根据Id修改城市
+   *
+   * @param city - 城市名称
+   * @param weChatInfoId - ID
+   */
+  @Modifying
+  @Query("UPDATE WeChatInfo w set w.city = :city WHERE w.weChatInfoId = :weChatInfoId")
+  void updateCityById(@Param("city") String city, @Param("weChatInfoId") Integer weChatInfoId);
 }

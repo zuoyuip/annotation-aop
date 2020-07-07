@@ -1,6 +1,8 @@
 package org.zuoyu.examples.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +25,7 @@ import org.hibernate.annotations.DynamicUpdate;
  */
 @Data
 @Entity
+@ApiModel("微信用户")
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "wechatinfo", schema = "examples")
@@ -36,6 +39,7 @@ public class WeChatInfo extends BaseEntity{
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   @JsonProperty("id")
+  @ApiModelProperty("ID")
   private Integer weChatInfoId;
 
   /**
@@ -43,6 +47,7 @@ public class WeChatInfo extends BaseEntity{
    */
   @Column(name = "openid", columnDefinition = "varchar(255) not null comment '通用户的标识，对当前开发者帐号唯一'")
   @JsonProperty("openid")
+  @ApiModelProperty("普通用户的标识，对当前开发者帐号唯一")
   private String openId;
 
   /**
@@ -50,6 +55,7 @@ public class WeChatInfo extends BaseEntity{
    */
   @Column(name = "nickname", columnDefinition = "varchar(100) not null comment '普通用户昵称'")
   @JsonProperty("nickname")
+  @ApiModelProperty("普通用户昵称")
   private String nickName;
 
   /**
@@ -57,6 +63,7 @@ public class WeChatInfo extends BaseEntity{
    */
   @Column(name = "language", columnDefinition = "varchar(50) comment '语言'")
   @JsonProperty("language")
+  @ApiModelProperty("语言")
   private String language;
 
   /**
@@ -64,6 +71,7 @@ public class WeChatInfo extends BaseEntity{
    */
   @Column(name = "sex", columnDefinition = "varchar(1) not null comment '普通用户性别，1为男性，2为女性'")
   @JsonProperty("sex")
+  @ApiModelProperty("普通用户性别，1为男性，2为女性")
   private Integer sex;
 
   /**
@@ -71,6 +79,7 @@ public class WeChatInfo extends BaseEntity{
    */
   @Column(name = "province", columnDefinition = "varchar(50) comment '普通用户个人资料填写的省份'")
   @JsonProperty("province")
+  @ApiModelProperty("普通用户个人资料填写的省份")
   private String province;
 
   /**
@@ -78,6 +87,7 @@ public class WeChatInfo extends BaseEntity{
    */
   @Column(name = "city", columnDefinition = "varchar(50) comment '普通用户个人资料填写的城市'")
   @JsonProperty("city")
+  @ApiModelProperty("普通用户个人资料填写的城市")
   private String city;
 
   /**
@@ -85,6 +95,7 @@ public class WeChatInfo extends BaseEntity{
    */
   @Column(name = "country", columnDefinition = "varchar(50) comment '国家，如中国为CN'")
   @JsonProperty("country")
+  @ApiModelProperty("国家")
   private String country;
 
   /**
@@ -92,6 +103,7 @@ public class WeChatInfo extends BaseEntity{
    */
   @Column(name = "headimgurl", columnDefinition = "varchar(510) comment '用户头像'")
   @JsonProperty("headimgurl")
+  @ApiModelProperty("用户头像")
   private String headImgUrl;
 
   /**
@@ -99,5 +111,6 @@ public class WeChatInfo extends BaseEntity{
    */
   @Column(name = "unionid", columnDefinition = "varchar(255) not null comment '用户统一标识'")
   @JsonProperty("unionid")
+  @ApiModelProperty("用户统一标识。针对一个微信开放平台帐号下的应用，同一用户的unionid是唯一的。")
   private String unionId;
 }
